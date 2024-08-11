@@ -1,182 +1,126 @@
-# Contabilizar
-##### Teste técnico de programação
+# Contabilizar - Teste Técnico de Programação
 
-Este repositório tem o apoio da [Elogroup](https://www.elogroup.com.br)
-
-![Elogroup](/assets/elogroup.svg?raw=true "Frontend")
+Este repositório contém um desafio de programação que visa testar habilidades em técnicas de **Programação** e **Manipulação de Dados** usando JavaScript.
 
 ## Introdução
 
-Este repositório contém um arquétipo cujo objetivo é prover um artefato para codificação de um desafio de programação, de nível básico, com o uso da linguagem Javascript.
+Este desafio simula funções de um sistema de contabilidade, focando na análise de dados financeiros associados a diferentes CPFs. As funções implementadas lidam com validação de dados, cálculos de saldos e médias, e identificação de registros específicos. 
 
-O propósito deste desafio é testar o conhecimento de uma pessoa em técnicas de **Programação** e **Manipulação de Dados**.
+## Funções Implementadas
 
-Nas seções abaixo, o(a) candidato(a) encontrará as instruções sobre como deverá proceder para realizar o desafio.
+### 1. `validarCPF(cpf)`
 
-Caso o(a) candidato(a) esteja participando de um processo seletivo, deverá considerar não apenas as instruções contidas aqui, como também as instruções que forem fornecidas pela organização que estiver promovendo o processo seletivo.
+#### Descrição
+Valida um número de CPF para garantir que é um número válido de 11 dígitos, verificando os dígitos verificadores.
 
-**Por que Javascript?**
+#### Detalhes da Implementação
+- **Validação do Comprimento**: Verifica se o CPF possui exatamente 11 dígitos.
+- **Validação de CPF Repetido**: Verifica se todos os dígitos são iguais (ex: `11111111111`), o que é inválido.
+- **Cálculo dos Dígitos Verificadores**:
+  - Calcula o primeiro dígito verificador baseado nos primeiros 9 dígitos.
+  - Calcula o segundo dígito verificador com base nos primeiros 10 dígitos.
+  - Usa `parseInt` e `substring` para extrair e converter os dígitos necessários para o cálculo.
+  - Compara os dígitos calculados com os fornecidos no CPF.
 
-Atualmente existem dezenas de linguagens de programação sendo utilizadas para as mais diversas finalidades no mercado. Isso torna o desafio de elaborar um desafio de programação ainda mais complexo. Entendemos que Javascript, por ser uma linguagem de programação amplamente utilizada para o desenvolvimento de aplicações para diversas plataformas (em especial a web), facilita o processo de avaliação, vez que para esse tipo de conteúdo podemos usar o próprio navegador para executar os códigos, sem necessidade de configurações de ambiente.
+### 2. `validarEntradaDeDados(lancamento)`
 
-Caso o(a) candidato(a) não tenha familiaridade com Javascript, indicamos uma ótima referência para estudo: a documentação do [Mozilla](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference) sobre a linguagem.
+#### Descrição
+Valida um objeto de lançamento financeiro para garantir que o CPF e o valor estejam corretos.
 
-## Orientações gerais
+#### Detalhes da Implementação
+- **Validação do CPF**:
+  - Verifica se o CPF contém apenas caracteres numéricos usando uma expressão regular (`/^\d+$/`).
+  - Usa a função `validarCPF` para validar o CPF.
+- **Validação do Valor**:
+  - Garante que o valor seja numérico e esteja dentro dos limites permitidos (-2000 a 15000).
+  - Retorna mensagens de erro se as validações falharem, ou `null` se todas as validações forem bem-sucedidas.
 
-O(a) candidato(a) deverá realizar upload do arquivo ZIP com o conteúdo desse repositório. Ele pode ser obtido clicando no menu do botão "Code"(na parte superior, mais à direita desta tela), escolhendo a opção "Download ZIP".
+### 3. `recuperarSaldosPorConta(lancamentos)`
 
-Os arquivos contidos no ZIP baixado devem ser descompactados em uma mesma pasta na máquina local.
+#### Descrição
+Calcula o saldo total por CPF a partir de uma lista de lançamentos.
 
-Para realizar o desafio, o(a) candidato(a) deverá alterar o conteúdo do arquivo **service.js**, adicionando código nas funções contidas nesse arquivo, conforme as instruções que serão descritas adiante.
+#### Detalhes da Implementação
+- **Uso de `reduce`**:
+  - Agrega os valores dos lançamentos por CPF.
+  - Usa `Object.entries` e `map` para transformar o resultado em uma lista de objetos com CPF e saldo.
+  
+### 4. `recuperarMaiorMenorLancamentos(cpf, lancamentos)`
 
-Para testar o código implementado, o(a) candidato(o) poderá abrir o arquivo index.html no navegador, o que geralmente é possível apenas com a execução de um duplo clique sobre ele.
+#### Descrição
+Identifica os lançamentos com o maior e menor valor para um CPF específico.
 
-Por meio dessa interface, o(a) candidato(a) poderá testar o código implementado.
+#### Detalhes da Implementação
+- **Filtragem**:
+  - Filtra os lançamentos para o CPF fornecido.
+- **Ordenação**:
+  - Ordena os lançamentos do menor para o maior valor usando `sort`.
+- **Seleção**:
+  - Seleciona o menor e o maior lançamento, retornando-os em um array.
 
-Obs.: Como não estamos usando um armazenamento de dados persistente (banco de dados, storage...), lembre-se que caso a página seja recarregada, os dados precisarão ser adicionados novamente.
+### 5. `recuperarMaioresSaldos(lancamentos)`
 
-Imagem do arquivo index.html aberto no navegador. 
+#### Descrição
+Encontra os três CPFs com os maiores saldos totais.
 
-![Frontend](/assets/front.png?raw=true "Frontend")
+#### Detalhes da Implementação
+- **Uso de `recuperarSaldosPorConta`**:
+  - Obtém os saldos totais por CPF.
+- **Ordenação e Seleção**:
+  - Ordena os saldos do maior para o menor usando `sort`.
+  - Usa `slice` para limitar o resultado aos três maiores saldos.
 
-### Entrega
+### 6. `recuperarMaioresMedias(lancamentos)`
 
-Se esse desafio estiver sendo realizado no contexto de um processo seletivo, a entrega do desafio deverá ser realizada em conformidade com as orientações da organização que promove o processo.
+#### Descrição
+Encontra os três CPFs com as maiores médias de valores lançados.
 
-Por padrão, o(a) candidato(a), após terminar a codificação das funções contidas no arquivo **service.js**, deverá criar um novo arquivo ZIP com todos os arquivos contidos na pasta original (incluindo o arquivo service.js com o código implementado) e enviar para a organização avaliadora por meio de um link por ela fornecida.
+#### Detalhes da Implementação
+- **Cálculo da Média**:
+  - Usa `reduce` para somar e contar os lançamentos por CPF.
+  - Calcula a média dos valores por CPF.
+- **Ordenação e Seleção**:
+  - Ordena os CPFs pelas médias do maior para o menor.
+  - Usa `slice` para limitar o resultado aos três maiores valores médios.
 
-## Case
+## Exemplos de Teste
 
-### Contexto de Negócio
+### Entradas
 
-Considerando tratar de um desafio, buscamos criar um cenário que reflita situações pelas quais vivenciamos como desenvolvedores de software no dia-a-dia.
+| CPF          | Valor    |
+|--------------|----------|
+| 74914372061  | 1234.78  |
+| 74914372061  | -123.56  |
+| 41421980096  | -987.00  |
+| 05987701007  | 1267.39  |
 
-Esse desafio simula o que poderiam ser consideradas funções de um sistema de Contabilidade, mais especificamente de um módulo de análise de dados.
+### Saídas Esperadas
 
-Por se tratar de um cenário hipotético, essas funções podem parecer não fazer qualquer sentido no mundo real, embora o conhecimento em técnicas de programação e manipulação de dados, exigidas do(a) candidato(a) para que realize a implementação, sejam exatamente as mesmas que seriam exigidas em uma cenário real.
+#### Saldo por CPF
 
-### Implementação
+| CPF          | Saldo    |
+|--------------|----------|
+| 74914372061  | 246.22   |
+| 41421980096  | -2089.90 |
+| 05987701007  | 1434.69  |
 
-O arquivo service.js contém as 5 (cinco) funções destacadas na imagem abaixo.
+#### Maior e Menor Lançamento
 
-![Backend](/assets/back.png?raw=true "Backend")
+| CPF          | Valor    |
+|--------------|----------|
+| 05987701007  | 23.40    |
+| 05987701007  | 1267.39  |
 
-O código do corpo de cada uma dessas funções deve ser implementado em conformidade com as regras que serão descritas adiante.
+#### Maiores Saldos
 
-Para um melhor entendimento das regras, além da descrição, o(a) candidato(a) poderá usar da interpretação dos dados de entrada e saída presentes na seção [**Exemplo de Teste do programa**](#exemplo-de-teste-do-programa).
+| CPF          | Saldo    |
+|--------------|----------|
+| 05987701007  | 1434.69  |
+| 74914372061  | 246.22   |
 
-O nome de cada função também é sugestivo. Embora o candidato só possa alterar o arquivo **service.js** é facultado analisar o código dos demais arquivos contidos no repositório, a fim de entender o propósito do código a ser implementado.
+#### Maiores Médias
 
-A capacidade de interpretar os requisitos, mesmo em casos que a especificação não seja detalhada, também faz parte do rol de habilidades de um bom desenvolvedor e é comum que esses aspectos também sejam considerados pelos avaliadores no momento de decidir pela contratação, ou não, do(a) candidato(a).
-
-Ainda assim, caso o(a) candidato(a) tenha dúvidas, poderá usar os meios fornecidos para contatar a organização que estiver promovendo o processo seletivo.
-
-#### Modelos de dados
-
-Existem dois tipos de objeto que serão usados como parâmetros de entrada nas funções: o JSON **"lancamento"** (no singular) e o **"lancamentos"** (no plural).
-
-Você deve considerar que o JSON lancamento (no singular) será um objeto que possui duas propriedades: cpf e valor. Exemplo:
-```js
-{ cpf: "07817548790", valor: 12.45 }
-```
-
-A propriedade **cpf** é uma string, enquanto a propriedade **valor** é um número.
-
-Por sua vez, o JSON lancamentos (no plural) será um array de objetos do tipo lancamento (no singular). Exemplo:
-```js
-[{ cpf: "07817548790", valor: 12.45 }, { cpf: "92632334039", valor: 1234.65 }]
-```
-
-#### Regras de Negócio
-
-Obs.: Para validações e outros cálculos, o(a) candidato(a) poderá criar funções auxiliares (até mesmo capturar funções na internet para usar no código), mas **não deve modificar as assinaturas das funções existentes**.
-
-1. Função **validarEntradaDeDados**
-- Tipo do parâmetro de entrada: lancamento
-- Tipos de retorno: string (mensagens de validação) ou null (se todos os valores estiverem em conformidade com as validações)
-Esta função recebe um objeto (lancamento) contendo os valores digitados pelo usuário. Esses valores deverão ser analisados conforme as regras abaixo. Caso uma ou mais regras não sejam atendidas, uma mensagem de validação informando quais regras não foram atendidas deverá ser retornada na função. Se todas as regras forem atendidas a função deverá retornar null.
-
-   - CPF deve conter apenas caracteres numéricos.
-   - Os dígitos verificadores do CPF devem ser válido.
-   - Valor deve ser numérico.
-   - Valor não pode ser superior a 15000,00.
-   - Valor não pode ser inferior a -2000,00.
-   
-Obs.: Para realizar o cálculo do dígito verificador do CPF e saber se o valor informado é válido, poderá o(a) candidato(a) utilizar uma função obtida por meio de pesquisa na Internet, desde que se certifique que essa função esteja funcionando corretamente. A habilidade para realizar a pesquisa e adição de código obtido externamente faz parte dos critérios de avaliação, pois representa uma rotina comum no dia-a-dia dos desenvolvedores.
-
-2. Função **recuperarSaldosPorConta**
-- Tipo do parâmetro de entrada: lancamentos (todos os lançamentos registrados)
-- Tipo de retorno: lancamentos (Em cada linha um CPF diferente e o respectivo saldo)
-Essa função recebe um array com todos os lançamentos digitados para todos os CPF's. Os valores desse array deverão ser analisados e um array de saída deverá ser criado contendo em cada linha um CPF e o valor do respectivo saldo, ordenados na sequência em foram adicionados pelo usuário. No caso de não ser identificado nenhum registro correspondente, o retorno deve ser um array vazio.
-
-3. Função **recuperarMaiorMenorLancamentos**
-- Tipo do parâmetro de entrada:
-  - lancamentos (todos os lançamentos registrados)
-  - string (CPF já validado, somente com números)
-- Tipo de retorno: lancamentos (somente dois registros, conforme solicitado na regra)
-Essa função recebe um array com todos os lançamentos digitados para todos os CPF's. Os valores desse array deverão ser analisados e um array de saída deverá ser criado contendo, no máximo, dois registros, sendo um deles com o maior e outro com o menor valor lançado para o CPF recebido como parâmetro, ordenados do menor para o maior valor. Havendo menos de dois lançamentos registrados para o respectivo CPF, os dois registros (maior e menor) contidos no array de retorno deverão ser idênticos. No caso de não ser identificado nenhum registro correspondente, o retorno deve ser um array vazio.
-
-4. Função **recuperarMaioresSaldos**
-- Tipo do parâmetro de entrada: lancamentos (todos os lançamentos registrados)
-- Tipo de retorno: lancamentos (somente três registros, conforme solicitado na regra)
-Essa função recebe um array com todos os lançamentos digitados para todos os CPF's. Os valores desse array deverão ser analisados e um array de saída deverá ser criado contendo, no máximo, três registros correspondentes aos CPFs com maiores saldos, ordenados do maior para o menor valor. Para cada lançamento deverá ser exibido o saldo do respectivo CPF. Havendo menos de três diferentes CPFs nos registros, deve ser retornado no array quantos forem possíveis. No caso de não ser identificado nenhum registro correspondente, o retorno deve ser um array vazio.
-
-5. Função: **recuperarMaioresMedias**
-- Tipo do parâmetro de entrada: lancamentos (todos os lançamentos registrados)
-- Tipos de retorno: lancamentos (somente os três registros identificados na regra)
-Essa função recebe um array com todos os lançamentos digitados para todos os CPF's. Os valores desse array deverão ser analisados e um array de saída deverá ser criado contendo, no máximo, três registros correspondentes aos CPFs com maiores saldos médios, ordenados do maior para o menor valor. O saldo médio deve corresponder à "MÉDIA" dos valores registros para o respectivo CPF. Havendo menos de três diferentes CPFs nos registros, deve ser retornado no array quantos forem possível. No caso de não ser identificado nenhum registro correspondente, o retorno deve ser um array vazio.
-
-## Exemplo de Teste do programa
-
-#### Entradas de dados:
-
-Obs.: A sequência deve ser obedecida.
-
-CPF       |Valor     |
-------------|------------|
-74914372061 | 1.234,78
-74914372061 | -123,56
-74914372061 | -865,00
-41421980096 | -987,00
-41421980096 | 123,00
-41421980096 | -1.225,90
-05987701007 | 1.267,39
-05987701007 | 143,90
-05987701007 | 23,40
-93975495022 | 1.943,00
-93975495022 | 8.000,21
-93975495022 | 546,78
-
-#### Saídas esperadas:
-
-##### Painel Azul Claro (Saldos por CPF - Na sequência em que os CPFs foram digitados):
-
-CPF       |Valor     |
-------------|------------|
-74914372061 | 246,22
-41421980096 | -2.089,90
-05987701007 | 1.434,69
-93975495022 | 10.489,99
-
-##### Painel Cinza (O maior e o menor lançamento do último CPF - Do menor para o maior):
-
-CPF       |Valor     |
-------------|------------|
-93975495022 | 546,78
-93975495022 | 8.000,21
-
-##### Painel Azul Escuro (Os três CPFs com maiores "médias" - Da maior para a menor):
-
-CPF       |Valor     |
-------------|------------|
-93975495022 | 3.496,66
-05987701007 | 478,23
-74914372061 | 82,07
-
-##### Painel Amarelo (Três maiores saldos por CPF - do maior para o menor):
-
-CPF       |Valor     |
-------------|------------|
-93975495022 | 10.489,99
-05987701007 | 1.434,69
-74914372061 | 246,22
+| CPF          | Média    |
+|--------------|----------|
+| 05987701007  | 478.23   |
+| 74914372061  | 82.07    |
