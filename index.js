@@ -1,40 +1,44 @@
 const lancamentos = []
 
-const salvarLancamento = () => {
-    
-    const inputCpf = document.getElementById('cpf')
-    const inputValor = document.getElementById('valor')
-    const inputRegistrar = document.getElementById('registrar')
+const processarValor = (valorStr) => {
+    let valor = valorStr.replace(/\./g, '').replace(',', '.');
+    return parseFloat(valor);
+};
 
-    const disableInput = (input) => input.setAttribute('disabled', true)
-    disableInput(inputCpf)
-    disableInput(inputValor)
-    disableInput(inputRegistrar)
+const salvarLancamento = () => {
+    const inputCpf = document.getElementById('cpf');
+    const inputValor = document.getElementById('valor');
+    const inputRegistrar = document.getElementById('registrar');
+
+    const disableInput = (input) => input.setAttribute('disabled', true);
+    disableInput(inputCpf);
+    disableInput(inputValor);
+    disableInput(inputRegistrar);
 
     setTimeout(() => {
         try {
             const lancamento = { 
                 cpf: inputCpf.value == '' ? null : inputCpf.value, 
-                valor: Number(inputValor.value) == '' ? null :  Number(inputValor.value)
-            }
-            const mensagemValidacao = validarEntradaDeDados(lancamento)
+                valor: inputValor.value == '' ? null : processarValor(inputValor.value)
+            };
+            const mensagemValidacao = validarEntradaDeDados(lancamento);
             if (mensagemValidacao) {
-                alert(mensagemValidacao)
+                alert(mensagemValidacao);
             } else {
-                lancamentos.push(lancamento)
+                lancamentos.push(lancamento);
                 atualizarPaineis(inputCpf.value);
-                alert('Lançamento registrado com sucesso!')
+                alert('Lançamento registrado com sucesso!');
             }
         } finally {
-            const enableInput = (input) => input.removeAttribute('disabled')
-            enableInput(inputCpf)
-            enableInput(inputValor)
-            enableInput(inputRegistrar)
-            inputCpf.focus()
+            const enableInput = (input) => input.removeAttribute('disabled');
+            enableInput(inputCpf);
+            enableInput(inputValor);
+            enableInput(inputRegistrar);
+            inputCpf.focus();
         }
-    }, 1000)
+    }, 1000);
+};
 
-}
 
 const atualizarPaineis = (cpf) => {
 
